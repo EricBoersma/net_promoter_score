@@ -35,3 +35,53 @@
            (is (thrown? AssertionError (calculate-net-promoter-score 10 -1 10)))
            (is (thrown? AssertionError (calculate-net-promoter-score 10 10 -1)))
            (is (thrown? AssertionError (calculate-net-promoter-score 0 0 0)))))
+
+(deftest in-nps-range-test
+  (testing "Correctly returns true when all values are valid"
+           (is (= true (in-nps-range [1 2 3 4 5 6 7 8 9 10]))))
+
+  (testing "Correctly returns false when some values are invalid"
+           (is (= false (in-nps-range [-1 1 2 3 4]))))
+
+  (testing "Correctly returns true when an empty vector is provided"
+           (is (= true (in-nps-range [])))))
+
+(deftest find-all-detractors-test
+  (testing "Correctly finds all the scores classified as detractors by default NPS prioritization"
+           (is (= '(1 2 3 4 5 6) (find-all-detractors [1 2 3 4 5 6 7 8 9 10]))))
+
+  (testing "Correctly finds all the scores classified as detractors by custom NPS prioritization"
+           (is (= '(1 2 3) (find-all-detractors [1 2 3 4 5 6 7 8 9 10] 3))))
+
+  (testing "Correctly returns an empty list when there are no matching items"
+           (is (= '() (find-all-detractors [10 10 10]))))
+
+  (testing "Correctly validates the provided values in the vector for validity to NPS scores"
+           (is (thrown? AssertionError (find-all-detractors [-1 0 1])))))
+
+(deftest find-all-promorters-test
+  (testing "Correctly finds all the scores classified as promoters by default NPS prioritization"
+           (is (= '(9 10) (find-all-promoters [1 2 3 4 5 6 7 8 9 10]))))
+
+  (testing "Correctly finds all the scores classified as promoters by custom NPS prioritization"
+           (is (= '(5 6 7) (find-all-promoters [1 2 3 4 5 6 7] 5))))
+
+  (testing "Correctly returns an empty list when there are no matching items"
+           (is (= '() (find-all-promoters [1 2 3 4]))))
+
+  (testing "Correctly validates the provided values in the vector for validity to NPS scores"
+           (is (thrown? AssertionError (find-all-promoters [-1 0 1])))))
+
+(deftest find-all-passives-test
+  (testing "Correctly finds all the scores classified as passives by default NPS prioritization"
+           (is (= '(7 8) (find-all-passives [1 2 3 4 5 6 7 8 9 10]))))
+
+  (testing "Correctly finds all the scores classified as passives by custom NPS prioritization"
+           (is (= '(4 5) (find-all-passives [1 2 3 4 5 6 7] 3 6))))
+
+  (testing "Correctly returns an empty list when there are no matching items"
+           (is (= '() (find-all-passives [1 10]))))
+
+  (testing "Correctly validates the provided values in the vector for validity to NPS scores"
+           (is (thrown? AssertionError (find-all-passives [-1 0 1]))))
+  )
