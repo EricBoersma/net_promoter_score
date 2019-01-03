@@ -19,4 +19,7 @@
 
 (deftest get-promoter-score-test
   (testing "Correctly calculates the NPS based on some large number of values"
-           (is (= 0 (get-promoter-score (flatten (conj (get-random-detractor-values 10) (get-random-passive-values 10) (get-random-promoter-values 10))))))))
+           (is (= 0 (get-promoter-score (flatten (conj (get-random-detractor-values 10) (get-random-passive-values 10) (get-random-promoter-values 10))))))
+           (is (= 66 (get-promoter-score (flatten (conj (get-random-detractor-values 10) (get-random-passive-values 10) (get-random-promoter-values 70))))))
+           (is (= 70 (get-promoter-score (flatten (conj (get-random-detractor-values 100) (get-random-passive-values 100) (get-random-promoter-values 800))))))
+           (is (= -70 (get-promoter-score (flatten (conj (get-random-detractor-values 8000) (get-random-passive-values 1000) (get-random-promoter-values 1000))))))))
