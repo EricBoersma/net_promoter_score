@@ -36,16 +36,6 @@
            (is (thrown? AssertionError (calculate-net-promoter-score 10 10 -1)))
            (is (thrown? AssertionError (calculate-net-promoter-score 0 0 0)))))
 
-(deftest in-nps-range-test
-  (testing "Correctly returns true when all values are valid"
-           (is (= true (in-nps-range [1 2 3 4 5 6 7 8 9 10]))))
-
-  (testing "Correctly returns false when some values are invalid"
-           (is (= false (in-nps-range [-1 1 2 3 4]))))
-
-  (testing "Correctly returns true when an empty vector is provided"
-           (is (= true (in-nps-range [])))))
-
 (deftest find-all-detractors-test
   (testing "Correctly finds all the scores classified as detractors by default NPS prioritization"
            (is (= '(1 2 3 4 5 6) (find-all-detractors [1 2 3 4 5 6 7 8 9 10]))))

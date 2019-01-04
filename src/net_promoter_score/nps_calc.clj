@@ -1,4 +1,5 @@
-(ns net-promoter-score.nps-calc)
+(ns net-promoter-score.nps-calc
+  (:require [net-promoter-score.nps-validation :refer :all]))
 
 (defn calculate-percentile-value
   "Calcualtes the percentile value (X out of 100) for given detractor/passive/generator value"
@@ -13,11 +14,6 @@
   (let [total (+ detractors passives generators)]
     (- (calculate-percentile-value generators total)
        (calculate-percentile-value detractors total))))
-
-(defn in-nps-range
-  "Checks whether the provided list of numbers are in the acceptable NPS range (0=10)"
-  [values]
-  (every? #(<= 0 % 10) values))
 
 (defn find-all-detractors
   "Finds all scores classified as a detractor by net promoter score rankings.
