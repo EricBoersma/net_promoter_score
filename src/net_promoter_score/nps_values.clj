@@ -15,7 +15,7 @@
     1 [0]
     2 [0 1]
     [(int (Math/floor (/ element-count 2)))
-     (- (int (Math/floor (/ element-count 2))) 1)]))
+     (dec (int (Math/floor (/ element-count 2))))]))
 
 (defn nps-median
   "Calculates the median value of the provided NPS scores, used to provide a summary of NPS scores over a period of time."
