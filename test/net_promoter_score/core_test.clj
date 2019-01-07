@@ -2,17 +2,17 @@
   (:require [clojure.test :refer :all]
             [net-promoter-score.core :as nps-core]))
 
-(defn get-random-detractor-values
+(defn ^:private get-random-detractor-values
   "Gets a list of the specified number of detractor values (less than 7)"
   [count source]
   (into source (take count (repeatedly #(rand-int 7)))))
 
-(defn get-random-passive-values
+(defn ^:private get-random-passive-values
   "Gets a list of the specified number of passive values (7 and 8)"
   [count source]
   (into source (take count (repeatedly #(+ (rand-int 2) 7)))))
 
-(defn get-random-promoter-values
+(defn ^:private get-random-promoter-values
   "Gets a list of the specified number of promoter values (9 and 10)"
   [count source]
   (into source (take count (repeatedly #(+ (rand-int 2) 9)))))
