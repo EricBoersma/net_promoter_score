@@ -1,10 +1,10 @@
 (ns net-promoter-score.nps-values
-  (:require [net-promoter-score.nps-validation :refer :all]))
+  (:require [net-promoter-score.nps-validation :as validate]))
 
 (defn nps-mean
   "Calculates the double-precision mean value of the given score, used to provide a summary of NPS scores over a period of time."
   [values]
-  {:pre [(in-nps-range? values) (not-empty values)]}
+  {:pre [(validate/in-nps-range? values) (not-empty values)]}
   (double (/ (reduce + values) (count values))))
 
 (defn find-middle-vector-elements
@@ -20,7 +20,7 @@
 (defn nps-median
   "Calculates the median value of the provided NPS scores, used to provide a summary of NPS scores over a period of time."
   [values]
-  {:pre [(in-nps-range? values) (not-empty values)]}
+  {:pre [(validate/in-nps-range? values) (not-empty values)]}
   (let [sorted-vals (sort values)
         value-count (count values)
         middle-vector-elements (find-middle-vector-elements value-count)]
