@@ -73,3 +73,38 @@
                  {:date "1991-01-01" :score 0}
                  {:date "1989-01-01" :score 10}]
                 (jt/local-date "1989-12-31") (jt/local-date "1990-02-01"))))))
+
+(deftest get-standard-date-ranges-test
+  (let [start-date (jt/local-date "1990-01-01")]
+    (testing "Correctly returns valid date ranges for all-dates range."
+             (is
+              (=
+               {:start-date (jt/local-date "1890-01-01")
+                :end-date   (jt/local-date "2090-01-01")}
+               (:all-dates (nps-dates/get-standard-date-ranges start-date)))))
+
+    (testing "Correctly returns valid date ranges for last seven dates range"
+             (is
+              (=
+               {:start-date (jt/local-date "1989-12-25")
+                :end-date   start-date}
+               (:last-seven (nps-dates/get-standard-date-ranges start-date)))))
+
+    (testing "Correctly returns valid date ranges for last 30 dates range"
+             (is
+              (= {:start-date (jt/local-date "1989-12-02") :end-date start-date}
+                 (:last-thirty (nps-dates/get-standard-date-ranges start-date)))))
+
+    (testing "Correctly returns valid date ranges for 30-60 range"
+             (is
+              (=
+               {:start-date (jt/local-date "1989-11-02")
+                :end-date   (jt/local-date "1989-12-02")}
+               (:thirty-to-sixty (nps-dates/get-standard-date-ranges start-date)))))
+
+    (testing "Correctly returns valid date ranges for the 60-90 range"
+             (is
+               (=
+                 {:start-date (jt/local-date "1989-10-03")
+                  :end-date   (jt/local-date "1989-11-02")}
+                 (:sixty-to-ninety (nps-dates/get-standard-date-ranges start-date)))))))

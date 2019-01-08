@@ -11,7 +11,8 @@
 (defn date-between-dates
   "Checks whether a given date is between two dates"
   [given-date less-date greater-date]
-  (and (= less-date (jt/min given-date less-date)) (= greater-date (jt/max given-date greater-date))))
+  (and (= less-date (jt/min given-date less-date))
+       (= greater-date (jt/max given-date greater-date))))
 
 (defn get-nps-score-objects-for-date-range
   "Gets a list of NPS score hashmaps for the provided date range. Scores should be stored in hashes of the form `{:score X :date Y}`
@@ -24,7 +25,8 @@
   ([values start-date end-date date-format]
    (if (instance? java.time.LocalDate (:date (first values)))
      (filter #(date-between-dates (:date %) start-date end-date) values)
-     (filter #(date-between-dates (:date %) start-date end-date) (convert-nps-objects-to-dates values date-format) ))))
+     (filter #(date-between-dates (:date %) start-date end-date)
+             (convert-nps-objects-to-dates values date-format)))))
 
 (defn get-nps-scores-for-date-range
   "Gets a list of NPS scores for the provided date range. Scores should be stored in hashes of the form `{:score X :date Y}`.
@@ -39,4 +41,21 @@
                (instance? java.time.LocalDate end-date)))}
    (map :score
         (get-nps-score-objects-for-date-range values start-date end-date date-format))))
+
+(defn get-standard-date-ranges
+  "Gets a set of start/end date ranges for summary ranges of NPS score summaries. Takes a parameter of the anchor date,
+  which defaults to today's date."
+  ([]
+   (get-standard-date-ranges (jt/local-date)))
+  ([anchor-date]
+   (hash-map :all-dates
+             (hash-map :start-date (jt/minus anchor-date (jt/years 100)) :end-date (jt/plus anchor-date (jt/years 100)))
+             :last-seven
+             (hash-map :start-date (jt/minus anchor-date (jt/days 7)) :end-date anchor-date)
+             :last-thirty
+             (hash-map :start-date (jt/minus anchor-date (jt/days 30)) :end-date anchor-date)
+             :thirty-to-sixty
+             (hash-map :start-date (jt/minus anchor-date (jt/days 60)) :end-date (jt/minus anchor-date (jt/days 30)))
+             :sixty-to-ninety
+             (hash-map :start-date (jt/minus anchor-date (jt/days 90)) :end-date (jt/minus anchor-date (jt/days 60))))))
 
