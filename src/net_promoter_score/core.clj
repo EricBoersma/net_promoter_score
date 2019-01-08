@@ -11,7 +11,9 @@
    {:pre [(validate/in-nps-range? values) (not-empty values)]}
    (get-promoter-score values 6 9))
   ([values passive-minimum passive-maximum]
-   {:pre [(validate/in-nps-range? values) (not-empty values) (> passive-maximum passive-minimum)]}
+   {:pre [(validate/in-nps-range? values)
+          (not-empty values)
+          (> passive-maximum passive-minimum)]}
    (nps-calc/calculate-net-promoter-score
     (count (nps-calc/find-all-detractors values passive-minimum))
     (count (nps-calc/find-all-passives values passive-minimum passive-maximum))
@@ -24,5 +26,11 @@
   ([values]
    (get-promoter-summary values 6 9))
   ([values passive-minimum passive-maximum]
-   {:pre [(validate/in-nps-range? values) (not-empty values) (> passive-maximum passive-minimum)]}
-   (hash-map :score (get-promoter-score values passive-minimum passive-maximum) :median (nps-values/nps-median values) :mean (nps-values/nps-mean values))))
+   {:pre [(validate/in-nps-range? values)
+          (not-empty values)
+          (> passive-maximum passive-minimum)]}
+   (hash-map
+    :score (get-promoter-score values passive-minimum passive-maximum)
+    :median (nps-values/nps-median values)
+    :mean (nps-values/nps-mean values)
+    :standard-deviation (nps-values/nps-standard-deviation values))))

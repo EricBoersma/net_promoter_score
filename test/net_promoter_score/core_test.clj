@@ -35,10 +35,10 @@
 
 (deftest get-promoter-summary-test
   (testing "Correctly provides a summary of net promoter score."
-           (is (= {:score -40 :mean 5.5 :median 5.5} (nps-core/get-promoter-summary [1 2 3 4 5 6 7 8 9 10]))))
+           (is (= {:score -40 :mean 5.5 :median 5.5 :standard-deviation 2.8722813232690143} (nps-core/get-promoter-summary [1 2 3 4 5 6 7 8 9 10]))))
 
   (testing "Correctly provides a summary when given custom min/max values"
-           (is (= {:score 0 :mean 5.5 :median 5.5} (nps-core/get-promoter-summary [1 2 3 4 5 6 7 8 9 10] 4 7))))
+           (is (= {:score 0 :mean 5.5 :median 5.5 :standard-deviation 2.8722813232690143} (nps-core/get-promoter-summary [1 2 3 4 5 6 7 8 9 10] 4 7))))
 
   (testing "Correctly validates provided function parameters"
            (is (thrown? AssertionError (nps-core/get-promoter-summary [-1 0 1])))
