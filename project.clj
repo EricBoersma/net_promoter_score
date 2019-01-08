@@ -5,5 +5,6 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [
                   [org.clojure/clojure "1.9.0"]
-                  [clojure.java-time "0.3.2"]]
+                  [clojure.java-time "0.3.2"]
+                  [org.clojure/math.numeric-tower "0.0.4"]]
   :repl-options {:init-ns net-promoter-score.core})
