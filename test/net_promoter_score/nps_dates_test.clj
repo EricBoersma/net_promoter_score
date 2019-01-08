@@ -38,10 +38,14 @@
            (is
             (= true
                (nps-dates/date-between-dates (jt/local-date "1990-01-01") (jt/local-date "1989-12-31") (jt/local-date "1990-02-01")))))
+
   (testing "Correctly finds that a date is not between two non-encapuslating dates"
            (is
             (= false
-               (nps-dates/date-between-dates (jt/local-date "1989-12-31") (jt/local-date "1990-01-01") (jt/local-date "1990-02-01"))))))
+               (nps-dates/date-between-dates (jt/local-date "1989-12-31") (jt/local-date "1990-01-01") (jt/local-date "1990-02-01")))))
+
+  (testing "Correctly finds that a date is between two dates when the dates match"
+           (is (= true (nps-dates/date-between-dates (jt/local-date "1990-01-01") (jt/local-date "1990-01-01") (jt/local-date "1990-01-01"))))))
 
 (deftest get-nps-score-objects-for-date-range-test
   (testing "Correctly filters objects that already contain date objects in the date key"
@@ -76,13 +80,6 @@
 
 (deftest get-standard-date-ranges-test
   (let [start-date (jt/local-date "1990-01-01")]
-    (testing "Correctly returns valid date ranges for all-dates range."
-             (is
-              (=
-               {:start-date (jt/local-date "1890-01-01")
-                :end-date   (jt/local-date "2090-01-01")}
-               (:all-dates (nps-dates/get-standard-date-ranges start-date)))))
-
     (testing "Correctly returns valid date ranges for last seven dates range"
              (is
               (=

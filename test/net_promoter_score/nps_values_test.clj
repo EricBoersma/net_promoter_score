@@ -15,8 +15,8 @@
   (testing "Correctly validates the inputs provided to the function"
            (is (thrown? AssertionError (values/nps-mean [-1 1 2 3 4]))))
 
-  (testing "Errors if given zero values to work with"
-           (is (thrown? AssertionError (values/nps-mean [])))))
+  (testing "Returns N/A when given no values to work with"
+           (is (= "N/A" (values/nps-mean [])))))
 
 (deftest find-middle-vector-elements-test
   (testing "Correctly finds the middle element on a list with one element"
@@ -34,8 +34,10 @@
            (is (= 8 (int (values/nps-median [1 7 9 10])))))
 
   (testing "Correctly validates the provided parameters to the function"
-           (is (thrown? AssertionError (values/nps-median [])))
-           (is (thrown? AssertionError (values/nps-median [10 11 12])))))
+           (is (thrown? AssertionError (values/nps-median [10 11 12]))))
+
+  (testing "Correctly returns N/A when provided an empty set"
+           (is (= "N/A" (values/nps-median [])))))
 
 (deftest nps-variance-test
   (testing "Correctly calculates simple variance when there is none"
@@ -50,8 +52,10 @@
                 (double-values-are-approximately-equal? (double 40/9) (values/nps-variance [4 7 3 4 5 7 8 6 10])))))
 
   (testing "Correctly validates the parameters passed to the function"
-           (is (thrown? AssertionError (values/nps-variance [10 0 11])))
-           (is (thrown? AssertionError (values/nps-variance [])))))
+           (is (thrown? AssertionError (values/nps-variance [10 0 11]))))
+
+  (testing "Correctly returns not applicable when provided an empty parameter set"
+           (is (= "N/A" (values/nps-variance [])))))
 
 (deftest nps-standard-deviation-test
   (testing "Correctly calculates simple standard deviation when there is no variance"

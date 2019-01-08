@@ -10,8 +10,8 @@
 (defn nps-mean
   "Calculates the double-precision mean value of the given score, used to provide a summary of NPS scores over a period of time. Validates that the scores are valid NPS scores before calculation."
   [values]
-  {:pre [(validate/in-nps-range? values) (not-empty values)]}
-  (mean values))
+  {:pre [(validate/in-nps-range? values)]}
+  (if (empty? values) "N/A" (mean values)))
 
 (defn find-middle-vector-elements
   "Finds the middle elements in a vector, useful for calculating the median value."
@@ -26,28 +26,34 @@
 (defn nps-median
   "Calculates the median value of the provided NPS scores, used to provide a summary of NPS scores over a period of time."
   [values]
-  {:pre [(validate/in-nps-range? values) (not-empty values)]}
-  (let [sorted-vals            (sort values)
-        value-count            (count values)
-        middle-vector-elements (find-middle-vector-elements value-count)]
-    (if (= 0 (mod (count sorted-vals) 2))
-      ; If the number of items is even, then get the mean of the two middle values.
-      (nps-mean
-        [(nth sorted-vals (first middle-vector-elements))
-         (nth sorted-vals (second middle-vector-elements))])
-      ; if the number of items is odd, get the middle value
-      (nth sorted-vals (first middle-vector-elements)))))
+  {:pre [(validate/in-nps-range? values)]}
+  (if (empty? values)
+    "N/A"
+    (let [sorted-vals            (sort values)
+          value-count            (count values)
+          middle-vector-elements (find-middle-vector-elements value-count)]
+      (if (= 0 (mod (count sorted-vals) 2))
+        ; If the number of items is even, then get the mean of the two middle values.
+        (nps-mean
+         [(nth sorted-vals (first middle-vector-elements))
+          (nth sorted-vals (second middle-vector-elements))])
+        ; if the number of items is odd, get the middle value
+        (nth sorted-vals (first middle-vector-elements))))))
 
 (defn nps-variance
   "Calculates the population variance of a provided set of NPS scores, used to provide a summary of scores over a period of time."
   [values]
-  {:pre [(validate/in-nps-range? values) (not-empty values)]}
-  (let [mean-value (nps-mean values)]
-    (mean (map #(math/expt (- % mean-value) 2) values))))
+  {:pre [(validate/in-nps-range? values)]}
+  (if (empty? values)
+    "N/A"
+    (let [mean-value (nps-mean values)]
+      (mean (map #(math/expt (- % mean-value) 2) values)))))
 
 (defn nps-standard-deviation
   "Calculates the population standard deviation of a provided set of NPS scores, used to provide a summary of scores over a period of time."
   [values]
-  {:pre [(validate/in-nps-range? values) (not-empty values)]}
-  (let [mean-value (nps-mean values)]
-    (math/sqrt (nps-variance values))))
+  {:pre [(validate/in-nps-range? values)]}
+  (if (empty? values)
+    "N/A"
+    (let [mean-value (nps-mean values)]
+      (math/sqrt (nps-variance values)))))
