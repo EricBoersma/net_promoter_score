@@ -30,7 +30,7 @@ Usage:
 The main functionality of this library is exposed via the `net_promoter_score.core`
 namespace. Pulling that into your code is simple: 
 
-`(:require [net_promoter_score.core :as nps])`
+`(:require [net-promoter-score.core :as nps])`
 
 ### Getting a Net Promoter Score
 
